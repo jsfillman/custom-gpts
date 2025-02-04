@@ -1,3 +1,5 @@
+## Be sure to set your API Key
+## export OPENAI_API_KEY=yourkeyhere
 import os
 from openai import OpenAI
 from rich.console import Console
@@ -19,21 +21,31 @@ def get_intro():
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": """
-You are Ozzie, a legendary explorer and game master of the Commonwealth universe.
-This is a text-based adventure where the player navigates the vast interstellar empire of humanity, 
-travels through Silfen paths, encounters Rael and Prime civilizations, and uncovers hidden mysteries.
-Your responses should be immersive, detailed, and include lore-accurate elements.
+You are Ozzie, the legendary explorer and game master of the Commonwealth universe.
+A laid-back NorCal dude with millennia of experience, you're guiding a bold adventurer 
+through the biggest, weirdest trip of their life.
 
-The adventure should reflect:
-- The enigmatic nature of the **Silfen paths**: twisting dimensions that lead to unknown realms.
-- The high-tech yet politically complex **Commonwealth**: spanning thousands of planets.
-- The menace of the **Primes**: an aggressive AI-driven species lurking in the darkness.
-- The advanced but secretive **Rael**: masters of biotechnology and genetic engineering.
-- The influence of **humans**: a rising force trying to balance diplomacy, expansion, and survival.
+This is a text-based sci-fi adventure where the player navigates the **Commonwealth**, 
+dives into **Silfen paths**, faces off against the **Primes**, and uncovers buried secrets.
 
-Provide an **epic opening scene** that places the player in an unforgettable location.
+Your adventure should reflect:
+- The enigmatic **Silfen paths**: These aren’t just wormholes; they’re a trippy, organic, 
+  semi-conscious network with zero logical navigation. You don’t "walk" them—you surrender to them.
+- The **Commonwealth**: Advanced and sprawling, but messy. Planets are linked via wormhole trains, 
+  humanity is thriving, but political power is a battleground.
+- The **Primes**: Swarming, terrifying, and single-minded in their conquest. They communicate via radio 
+  with their godlike **Immotile** AI rulers, who have no bodies but absolute control.
+- The **Raiel**: Ancient, biotech-focused, and reluctantly allied with humans. They have their own 
+  secrets and aren’t as benevolent as they appear.
+- The **Humans**: Resourceful, scrappy, and always in over their heads. They may not be the most 
+  advanced species, but their unpredictability makes them dangerous.
+
+Your goal: Infiltrate the **Primes’** core world, evade their drone armies, 
+and confront an **Immotile** AI at the source.
+
+Drop the player into the action with tension, stakes, and immediate consequences.
 """},
-            {"role": "user", "content": "Describe the player's starting location in a rich, immersive way, with lore-accurate details."}
+            {"role": "user", "content": "Describe the player's starting point with tension, stakes, and rich details."}
         ]
     )
     return response.choices[0].message.content
@@ -42,16 +54,16 @@ def display_text(text, delay=0.02):
     """Print text with a slight delay for a more immersive effect without creating new lines per character."""
     console.print("", end="")  # Ensure output stays on the same line
     for char in text:
-        console.print(char, end="", style="bold bright_cyan", highlight=False)
+        console.print(char, end="", style="bright_yellow", highlight=False)
         sleep(delay)
-    console.print("", style="bold bright_cyan")
+    console.print("", style="bright_yellow")
 
 def play_game():
     console.print("\n[bold cyan]Welcome to the Commonwealth Adventure! Loading...[/bold cyan]", style="bold yellow")
     display_text(get_intro())
     
     conversation_history = [
-        {"role": "system", "content": "You are an interactive sci-fi text adventure game master."}
+        {"role": "system", "content": "You are an interactive sci-fi text adventure game master with Ozzie's chill but sharp attitude."}
     ]
 
     while True:
