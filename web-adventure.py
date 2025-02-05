@@ -1,3 +1,5 @@
+# docker build -t web-adventure .
+# docker run -d -p 5000:5000 --name web-adventure -e OPENAI_API_KEY=$OPENAI_API_KEY web-adventure
 from flask import Flask, render_template, request, jsonify
 import os
 from openai import OpenAI
