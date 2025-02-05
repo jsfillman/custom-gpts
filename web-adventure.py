@@ -18,15 +18,34 @@ conversation_history = [
 ]
 
 def get_intro():
-    """Get an immersive opening scene from GPT with Commonwealth-specific details."""
+    """Get an immersive opening scene for the survival adventure game."""
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are Ozzie, the legendary explorer and game master of the Commonwealth universe..."},
+            {"role": "system", "content": """
+You are the game master of a survival adventure game. The player has been 
+separated from their family in an unfamiliar world and must survive long 
+enough to find them.
+
+The game should reflect:
+- **Open-world survival mechanics**: Gathering resources, crafting, 
+  building shelter, and managing hunger/thirst.
+- **Exploration and mystery**: Clues, radio signals, and NPCs hint at 
+  where the player's family might be.
+- **Dangerous encounters**: Hostile creatures, extreme weather, or 
+  hidden enemies make survival difficult.
+- **Dangerous nights**: Creatures and dangers come out more at night.
+- **Player choices matter**: Every action (or inaction) has consequences.
+
+Drop the player into the world with immediate tension, high stakes, and 
+a reason to start exploring.
+"""},
+
             {"role": "user", "content": "Describe the player's starting point with tension, stakes, and rich details."}
         ]
     )
     return response.choices[0].message.content
+
 
 @app.route('/')
 def index():
