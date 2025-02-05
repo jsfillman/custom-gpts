@@ -14,10 +14,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        platform: [linux/amd64, linux/arm64]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -41,8 +37,8 @@ jobs:
         with:
           context: .
           push: true
-          platforms: ${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64  # Consolidated multi-arch build
           tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
 
       - name: Verify Image
-        run: docker manifest inspect ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+        run: docker manifest inspect ghcr.io/${{ github.repository_owner }}/${{ github.event.repository_name }}:latest
