@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survive The Night</title>
+    <style>
+        body {
+            background-color: black;
+            color: yellow;
+            font-family: monospace;
+            padding: 20px;
+        }
+        #output {
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        .player-input {
+            display: none; /* Hide input until intro text is displayed */
+        }
+        input {
+            background: black;
+            color: yellow;
+            border: 1px solid orange;
+            width: 100%;
+            font-size: 1.2em;
+            padding: 5px;
+        }
+        h1 {
+            color: cyan;
+        }
+        .system-message {
+            color: orange;
+        }
+        .player-message {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Survive The Night</h1>
+    <div id="output" class="system-message">Loading adventure...</div>
+    <div class="player-input">
+        <input id="user-input" placeholder="What will you do next?" autofocus>
+    </div>
+
+    <script>
+        async function sendInput(text) {
+            const response = await fetch('/input', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text})
+            });
+            const data = await response.json();
+            document.getElementById("output").innerHTML += `\n\n<span class="player-message">> ${text}</span>\n<span class="system-message">${data.response}</span>`;
+        }
+
+        document.getElementById("user-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                const input = this.value;
+                this.value = "";
+                sendInput(input);
+            }
+        });
+
+        async function startGame() {
+            const response = await fetch('/start', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById("output").innerHTML = `<span class="system-message">${data.response}</span>`;
+            document.querySelector(".player-input").style.display = "block"; // Show input field
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
